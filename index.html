@@ -23,6 +23,11 @@
     var uri = "obsidian://open?vault=" + encodeURIComponent(vault) + "&file=" + encodeURIComponent(file);
     document.getElementById("go").href = uri;
     document.getElementById("msg").textContent = "Opening " + file + " in Obsidian…";
+    // Close the tab once Obsidian takes focus. Chrome allows this for tabs
+    // opened from another app; elsewhere it fails quietly and the tab stays.
+    var closeTab = function () { window.close(); };
+    window.addEventListener("blur", closeTab);
+    document.addEventListener("visibilitychange", function () { if (document.hidden) closeTab(); });
     location.replace(uri);
   } else {
     document.getElementById("msg").textContent = "No note given. Links look like #file=Notes%2FLife%2FLife";
