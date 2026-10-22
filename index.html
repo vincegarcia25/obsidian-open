@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Open in Obsidian</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font: 16px/1.5 -apple-system, system-ui, sans-serif; max-width: 32rem; margin: 20vh auto; padding: 0 16px; text-align: center; }
+  a { color: #7c3aed; }
+</style>
+</head>
+<body>
+<p id="msg">Opening in Obsidian…</p>
+<p><a id="go" href="#">Open the note</a></p>
+<script>
+  // Params live after "#" so the note path never leaves the browser.
+  var p = new URLSearchParams(location.hash.slice(1) || location.search.slice(1));
+  var file = p.get("file");
+  var vault = p.get("vault") || "Obsidian";
+  if (file) {
+    var uri = "obsidian://open?vault=" + encodeURIComponent(vault) + "&file=" + encodeURIComponent(file);
+    document.getElementById("go").href = uri;
+    document.getElementById("msg").textContent = "Opening " + file + " in Obsidian…";
+    location.replace(uri);
+  } else {
+    document.getElementById("msg").textContent = "No note given. Links look like #file=Notes%2FLife%2FLife";
+    document.getElementById("go").remove();
+  }
+</script>
+</body>
+</html>
